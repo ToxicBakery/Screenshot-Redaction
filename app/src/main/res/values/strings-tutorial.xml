@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="tutorial_screenshot">Take a Screenshot</string>
+    <string name="tutorial_redact">Redact Your Secrets</string>
+    <string name="tutorial_share">Share Securely</string>
+
+    <string name="tutorial_one_list_thing">Last Step</string>
+    <string name="tutorial_need_permission">To redact images, access to the external storage is required.</string>
+    <string name="tutorial_progress_copying">Copying Data</string>
+    <string name="tutorial_finished">Share all the things!</string>
+    <string name="tutorial_button_agree">Agree</string>
+    <string name="tutorial_button_done">Done</string>
+</resources>

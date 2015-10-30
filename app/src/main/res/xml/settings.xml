@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_cat_ocr_language">
+        <ListPreference
+            android:defaultValue="@string/lang_selection_en"
+            android:entries="@array/ocr_languages"
+            android:entryValues="@array/ocr_languages_values"
+            android:key="pref_ocr_language"
+            android:summary="@string/pref_ocr_language_summary"
+            android:title="@string/pref_ocr_language"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_dictionaries">
+        <Preference
+            android:enabled="true"
+            android:key="pref_dictionaries"
+            android:title="@string/pref_dictionaries"/>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/pref_cat_about">
+        <Preference
+            android:key="pref_licenses"
+            android:title="@string/pref_licenses"/>
+    </PreferenceCategory>
+</PreferenceScreen>

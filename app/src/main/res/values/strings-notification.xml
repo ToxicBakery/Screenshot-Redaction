@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_title_found_items">Found Text in Screenshot</string>
+    <string name="notification_message_found_items">Your screenshot contains %1$d words. Select to perform redaction.</string>
+    <string name="notification_title_searching_image">Searching Image</string>
+    <string name="notification_message_search_image">Scanning image for text.</string>
+</resources>

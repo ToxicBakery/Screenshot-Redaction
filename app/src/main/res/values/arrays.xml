@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="ocr_languages">
+        <item>@string/lang_en</item>
+    </string-array>
+
+    <string-array name="ocr_languages_values">
+        <item>@string/lang_selection_en</item>
+    </string-array>
+
+</resources>

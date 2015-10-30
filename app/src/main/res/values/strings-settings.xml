@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_cat_ocr_language">OCR</string>
+    <string name="pref_ocr_language">Language Selection</string>
+    <string name="pref_ocr_language_summary">Select the language used to perform OCR. This is currently limited to English only.</string>
+
+    <string name="pref_cat_dictionaries">Dictionaries</string>
+    <string name="pref_dictionaries">Dictionary Selection</string>
+
+    <string name="pref_cat_about">About</string>
+    <string name="pref_licenses">Licenses</string>
+</resources>

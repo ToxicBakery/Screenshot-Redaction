@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    package="com.ToxicBakery.app.screenshot_redaction"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
+    <application
+        android:name=".ScreenshotApplication"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:allowBackup">
+
+        <activity
+            android:name=".ActivityTutorial"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar.Tutorial"/>
+
+        <activity
+            android:name=".ActivityRedactImage"
+            android:theme="@style/AppTheme.NoActionBar.Fullscreen"/>
+
+        <activity android:name=".ActivitySettings"/>
+
+        <activity android:name=".ActivityLicenses"/>
+
+        <activity-alias
+            android:name=".Launcher"
+            android:targetActivity=".ActivitySettings">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity-alias>
+
+        <receiver
+            android:name="com.ToxicBakery.app.screenshot_redaction.receiver.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".receiver.DeleteReceiver"
+            android:exported="true"
+            tools:ignore="ExportedReceiver">
+            <intent-filter>
+                <action android:name="com.ToxicBakery.app.screenshot_redaction.receiver.DeleteReceiver.ACTION_DELETE"/>
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.ScreenshotService"
+            android:exported="false"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.toxicbakery.app.screenshot_redaction.FileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
+
+    </application>
+
+</manifest>

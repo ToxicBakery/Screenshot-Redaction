@@ -1,0 +1,74 @@
+[
+    {
+        "name": "Android Annotations Support Library",
+        "licenseIdentifier": "license_android_support"
+    },
+    {
+        "name": "Android Compatibility Library v13",
+        "licenseIdentifier": "license_android_support"
+    },
+    {
+        "name": "Android Compatibility Library v7",
+        "licenseIdentifier": "license_android_support"
+    },
+    {
+        "name": "Android Compatibility Library v4",
+        "licenseIdentifier": "license_android_support"
+    },
+    {
+        "name": "Commons IO",
+        "licenseIdentifier": "license_commons_io"
+    },
+    {
+        "name": "EventBus",
+        "licenseIdentifier": "license_eventbus"
+    },
+    {
+        "name": "MapDB",
+        "licenseIdentifier": "license_mapdb"
+    },
+    {
+        "name": "PhotoView",
+        "licenseIdentifier": "license_photoview"
+    },
+    {
+        "name": "RxAndroid",
+        "licenseIdentifier": "license_rxandroid"
+    },
+    {
+        "name": "RxJava",
+        "licenseIdentifier": "license_rxjava"
+    },
+    {
+        "name": "Picasso",
+        "licenseIdentifier": "license_picasso"
+    },
+    {
+        "name": "Once",
+        "licenseIdentifier": "license_once"
+    },
+    {
+        "name": "Android Versions",
+        "licenseIdentifier": "license_android_versions"
+    },
+    {
+        "name": "Tess Two",
+        "licenseIdentifier": "license_tess_two"
+    },
+    {
+        "name": "Tesseract",
+        "licenseIdentifier": "license_tesseract"
+    },
+    {
+        "name": "junit",
+        "licenseIdentifier": "license_junit"
+    },
+    {
+        "name": "Leptonica",
+        "licenseIdentifier": "license_leptonica"
+    },
+    {
+        "name": "Gson",
+        "licenseIdentifier": "license_gson"
+    }
+]

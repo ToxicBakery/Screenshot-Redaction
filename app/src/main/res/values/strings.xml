@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Screenshot Redaction</string>
+    <string name="share">Share</string>
+    <string name="share_title">Share Redacted Image</string>
+</resources>

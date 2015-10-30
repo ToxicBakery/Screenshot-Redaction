@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_permission_denied">A permission was denied that is required for core functionality of the application.</string>
+    <string name="error_missing_screenshot_title">Loading Error</string>
+    <string name="error_missing_screenshot_msessage">The screenshot is no longer available for redaction.</string>
+</resources>

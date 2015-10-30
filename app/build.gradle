@@ -1,0 +1,107 @@
+import org.mapdb.DB
+import org.mapdb.DBMaker
+
+apply plugin: 'com.android.application'
+
+afterEvaluate {
+
+    //noinspection GroovyAssignabilityCheck
+    task genMapDbHashSet {
+        File inDir = file("resources/wordlists")
+        File outDir = file("src/main/res/raw")
+
+        inputs.dir inDir
+        outputs.dir outDir
+
+        doLast {
+            // Grab all wordlists
+            File[] wordLists = inDir.listFiles(new FilenameFilter() {
+                @Override
+                boolean accept(File dir, String filename) {
+                    return filename.startsWith("wordlist_")
+                }
+            })
+
+            for (File wordList : wordLists) {
+                File outFile = new File(outDir, wordList.getName())
+                if (outFile.exists() && !outFile.delete()) {
+                    throw new IOException("Failed to remove previously genereated dictionary")
+                }
+
+                DB db = DBMaker.fileDB(outFile)
+                        .strictDBGet()
+                        .transactionDisable()
+                        .make()
+
+                Set<String> wordSet = db.hashSetCreate("wordlist")
+                        .make()
+
+                Reader reader = new FileReader(wordList)
+                String line
+                while ((line = reader.readLine()) != null) {
+                    line = line.trim()
+                    if (!line.empty)
+                        wordSet.add(line)
+                }
+
+                reader.close()
+
+                // Cleanup
+                db.commit()
+                db.compact()
+                db.close()
+            }
+        }
+    }
+
+    //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+    preDebugBuild.dependsOn genMapDbHashSet
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.ToxicBakery.app.screenshot_redaction"
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+
+    buildTypes {
+        ocrTest {
+            debuggable true
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'commons-io:commons-io:2.4'
+    compile 'de.greenrobot:eventbus:2.4.0'
+    compile 'org.mapdb:mapdb:2.0-beta12'
+    compile 'com.commit451:PhotoView:1.2.4'
+    compile 'io.reactivex:rxandroid:1.1.0'
+    compile 'io.reactivex:rxjava:1.1.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jonathanfinerty.once:once:0.4.2'
+    compile 'com.ToxicBakery.android.version:versions:1.0.13'
+    compile 'com.google.code.gson:gson:2.5'
+
+    compile project(':tess-two')
+
+    testCompile 'junit:junit:4.12'
+}
