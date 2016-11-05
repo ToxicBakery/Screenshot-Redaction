@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>48@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path id="path-1" d="M14.8331273,48 C9.38936959,48 6.25957973,48 3.12978986,44.8702101 C-1.86611837e-08,41.7404203 0,38.6106304 0,33.1668727 L0,14.8331273 C0,9.38936959 -1.86611837e-08,6.25957971 3.12978986,3.12978986 C6.25957973,0 9.38936959,0 14.8331273,0 L33.1668727,0 C38.6106304,0 41.7404203,0 44.8702101,3.12978986 C48,6.25957971 48,9.38936959 48,14.8331273 L48,33.1668727 C48,38.6106304 48,41.7404203 44.8702101,44.8702101 C41.7404203,48 38.6106304,48 33.1668727,48 L14.8331273,48 Z"></path>
+        <rect id="path-3" x="0" y="0" width="26.4321987" height="33.65625" rx="1.3125"></rect>
+        <rect id="path-5" x="0" y="0" width="28.96875" height="27.735106"></rect>
+    </defs>
+    <g id="iOS-&amp;-Android" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="48">
+            <g id="Group">
+                <path d="M14.8331273,48 C9.38936959,48 6.25957973,48 3.12978986,44.8702101 C-1.86611837e-08,41.7404203 0,38.6106304 0,33.1668727 L0,14.8331273 C0,9.38936959 -1.86611837e-08,6.25957971 3.12978986,3.12978986 C6.25957973,0 9.38936959,0 14.8331273,0 L33.1668727,0 C38.6106304,0 41.7404203,0 44.8702101,3.12978986 C48,6.25957971 48,9.38936959 48,14.8331273 L48,33.1668727 C48,38.6106304 48,41.7404203 44.8702101,44.8702101 C41.7404203,48 38.6106304,48 33.1668727,48 L14.8331273,48 Z" id="mask" fill="#009587"></path>
+                <g id="Rectangle-15">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#617ACC" xlink:href="#path-1"></use>
+                    <path d="M8.4375,39.9140625 L8.4375,7.40625 L34.5238037,8.13208008 L48.75,32.001709 L48.75,56.489502 L23.8125,56.489502 L8.4375,39.9140625 Z" fill="#4C61A8" mask="url(#mask-2)"></path>
+                </g>
+                <g id="icon" transform="translate(8.437500, 7.406250)">
+                    <g id="mask">
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <use id="Mask" fill="#FFFFFF" xlink:href="#path-3"></use>
+                    </g>
+                    <g id="screenshot" transform="translate(5.285714, 2.307713)">
+                        <mask id="mask-6" fill="white">
+                            <use xlink:href="#path-5"></use>
+                        </mask>
+                        <use id="Mask" xlink:href="#path-5"></use>
+                        <g id="Page-1" mask="url(#mask-6)">
+                            <g transform="translate(0.000000, -1.908032)">
+                                <g id="Group-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(25.294565, 25.812890)">
+                                    <path d="M0.0810334734,20.7288835 L21.7395808,20.7288835 L21.7395808,0.0585382912 L0.0810334734,0.0585382912 L0.0810334734,20.7288835 Z" id="Stroke-1" stroke="#8AC249" stroke-width="1.96875"></path>
+                                </g>
+                                <path d="M3.717051,25.8714281 L25.3755983,25.8714281 L25.3755983,5.20108287 L3.717051,5.20108287 L3.717051,25.8714281 Z" id="Stroke-3" stroke="#8AC249" stroke-width="1.96875" fill="none"></path>
+                                <path d="M0.384966795,13.0806185 L19.96875,13.0806185 L19.96875,10.1125689 L0.384966795,10.1125689 L0.384966795,13.0806185 Z" id="Fill-5" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                                <path d="M24.09375,13.0806185 L26.625,13.0806185 L26.625,10.1125689 L24.09375,10.1125689 L24.09375,13.0806185 Z" id="Fill-5" stroke="none" fill="#4C61A8" fill-rule="evenodd"></path>
+                                <path d="M24.09375,20.9538099 L27.2036953,20.9538099 L27.2036953,17.9857603 L24.09375,17.9857603 L24.09375,20.9538099 Z" id="Fill-5" stroke="none" fill="#4C61A8" fill-rule="evenodd"></path>
+                                <path d="M0,20.9601541 L20.90625,20.9601541 L20.90625,17.9921045 L0,17.9921045 L0,20.9601541 Z" id="Fill-6" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                                <path d="M17.1193601,27.7652557 L20.2293053,27.7652557 L20.2293053,0 L17.1193601,0 L17.1193601,27.7652557 Z" id="Fill-7" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                                <path d="M8.86334398,28.6698749 L11.9732892,28.6698749 L11.9732892,0.904619109 L8.86334398,0.904619109 L8.86334398,28.6698749 Z" id="Fill-8" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                            </g>
+                        </g>
+                    </g>
+                    <g id="lines" transform="translate(13.263158, 9.626716)" stroke="#617ACC" stroke-width="1.26315789" stroke-linecap="square">
+                        <path d="M7.438576,3.15789474 L4.17382463,3.15789474" id="Line"></path>
+                        <path d="M10.9716431,10.1052632 L7.70689169,10.1052632" id="Line"></path>
+                        <path d="M2.72781992,10.1052632 L0.994064277,10.1052632" id="Line"></path>
+                        <path d="M6.26088698,12.6315789 L4.52713133,12.6315789" id="Line"></path>
+                        <path d="M10.8673998,0.5625 L6.14311808,0.5625" id="Line"></path>
+                        <path d="M6.14311808,6.87828947 L0.0980682696,6.87828947" id="Line"></path>
+                        <path d="M1.6678998,0.5625 L0.178436418,0.5625" id="Line"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

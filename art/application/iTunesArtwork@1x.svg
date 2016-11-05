@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.6.1 (26313) - http://www.bohemiancoding.com/sketch -->
+    <title>iTunesArtwork@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path id="path-1" d="M158.220025,512 C100.153276,512 66.7688504,512 33.3844252,478.615575 C-1.99052627e-07,445.23115 0,411.846724 0,353.779975 L0,158.220025 C0,100.153276 -1.99052627e-07,66.7688502 33.3844252,33.3844252 C66.7688504,0 100.153276,0 158.220025,0 L353.779975,0 C411.846724,0 445.23115,0 478.615575,33.3844252 C512,66.7688502 512,100.153276 512,158.220025 L512,353.779975 C512,411.846724 512,445.23115 478.615575,478.615575 C445.23115,512 411.846724,512 353.779975,512 L158.220025,512 Z"></path>
+        <rect id="path-3" x="0" y="0" width="281.943452" height="359" rx="14"></rect>
+        <rect id="path-5" x="0" y="0" width="309" height="295.841131"></rect>
+    </defs>
+    <g id="iOS-&amp;-Android" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="iTunesArtwork">
+            <path d="M158.220025,512 C100.153276,512 66.7688504,512 33.3844252,478.615575 C-1.99052627e-07,445.23115 0,411.846724 0,353.779975 L0,158.220025 C0,100.153276 -1.99052627e-07,66.7688502 33.3844252,33.3844252 C66.7688504,0 100.153276,0 158.220025,0 L353.779975,0 C411.846724,0 445.23115,0 478.615575,33.3844252 C512,66.7688502 512,100.153276 512,158.220025 L512,353.779975 C512,411.846724 512,445.23115 478.615575,478.615575 C445.23115,512 411.846724,512 353.779975,512 L158.220025,512 Z" id="mask" fill="#009587"></path>
+            <g id="Rectangle-15">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#617ACC" xlink:href="#path-1"></use>
+                <path d="M90,425.75 L90,79 L368.253906,86.7421875 L520,341.351562 L520,602.554688 L254,602.554688 L90,425.75 Z" fill="#4C61A8" mask="url(#mask-2)"></path>
+            </g>
+            <g id="icon" transform="translate(90.000000, 79.000000)">
+                <g id="mask">
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Mask" fill="#FFFFFF" xlink:href="#path-3"></use>
+                </g>
+                <g id="screenshot" transform="translate(56.380952, 24.615607)">
+                    <mask id="mask-6" fill="white">
+                        <use xlink:href="#path-5"></use>
+                    </mask>
+                    <use id="Mask" xlink:href="#path-5"></use>
+                    <g id="Page-1" mask="url(#mask-6)">
+                        <g transform="translate(0.000000, -20.352340)">
+                            <g id="Group-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(269.808692, 275.337491)">
+                                <path d="M0.864357049,221.108091 L231.888862,221.108091 L231.888862,0.624408439 L0.864357049,0.624408439 L0.864357049,221.108091 Z" id="Stroke-1" stroke="#8AC249" stroke-width="21"></path>
+                            </g>
+                            <path d="M39.648544,275.9619 L270.673049,275.9619 L270.673049,55.4782173 L39.648544,55.4782173 L39.648544,275.9619 Z" id="Stroke-3" stroke="#8AC249" stroke-width="21" fill="none"></path>
+                            <path d="M4.10631248,139.526597 L213,139.526597 L213,107.867402 L4.10631248,107.867402 L4.10631248,139.526597 Z" id="Fill-5" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                            <path d="M257,139.526597 L284,139.526597 L284,107.867402 L257,107.867402 L257,139.526597 Z" id="Fill-5" stroke="none" fill="#4C61A8" fill-rule="evenodd"></path>
+                            <path d="M257,223.507305 L290.172749,223.507305 L290.172749,191.84811 L257,191.84811 L257,223.507305 Z" id="Fill-5" stroke="none" fill="#4C61A8" fill-rule="evenodd"></path>
+                            <path d="M0,223.574977 L223,223.574977 L223,191.915781 L0,191.915781 L0,223.574977 Z" id="Fill-6" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                            <path d="M182.606507,296.162728 L215.779257,296.162728 L215.779257,0 L182.606507,0 L182.606507,296.162728 Z" id="Fill-7" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                            <path d="M94.5423358,305.811998 L127.715085,305.811998 L127.715085,9.6492705 L94.5423358,9.6492705 L94.5423358,305.811998 Z" id="Fill-8" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+                        </g>
+                    </g>
+                </g>
+                <g id="lines" transform="translate(121.279762, 102.684971)" stroke="#617ACC" stroke-width="13" stroke-linecap="square">
+                    <path d="M92.5562724,38.5 L51.9338176,38.5" id="Line"></path>
+                    <path d="M136.51731,109.5 L95.894855,109.5" id="Line"></path>
+                    <path d="M33.941556,109.5 L12.368884,109.5" id="Line"></path>
+                    <path d="M77.9025933,138.5 L56.3299214,138.5" id="Line"></path>
+                    <path d="M135.220238,1.5 L76.4372254,1.5" id="Line"></path>
+                    <path d="M76.4372254,72.5 L1.22023805,72.5" id="Line"></path>
+                    <path d="M20.7532448,1.5 L2.22023809,1.5" id="Line"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
