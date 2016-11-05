@@ -2,18 +2,16 @@ package com.ToxicBakery.app.screenshot_redaction;
 
 import android.Manifest;
 import android.app.Application;
-import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.ToxicBakery.android.version.Is;
 import com.ToxicBakery.app.screenshot_redaction.copy.CopyToSdCard;
 import com.ToxicBakery.app.screenshot_redaction.copy.TessDataRawResourceCopyConfiguration;
 import com.ToxicBakery.app.screenshot_redaction.dictionary.impl.DictionaryEnglish;
 import com.ToxicBakery.app.screenshot_redaction.dictionary.impl.DictionaryEnglishNames;
 import com.ToxicBakery.app.screenshot_redaction.notification.ScreenShotNotifications;
 import com.ToxicBakery.app.screenshot_redaction.service.ScreenshotService;
-import com.ToxicBakery.android.version.Is;
 import com.ToxicBakery.app.screenshot_redaction.util.PermissionCheck;
 
 import java.io.File;
@@ -31,12 +29,14 @@ public class ScreenshotApplication extends Application {
     private static final String TAG = "ScreenshotApplication";
     private static final String REMOVE_OLD_DIR = "REMOVE_OLD_DIR";
 
+    private ScreenShotNotifications screenShotNotifications;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         Once.initialise(this);
-        ScreenShotNotifications.getInstance(this);
+        screenShotNotifications = new ScreenShotNotifications(this);
 
         new Handler().post(new Runnable() {
             @Override
@@ -62,6 +62,15 @@ public class ScreenshotApplication extends Application {
                 }
             }
         });
+    }
+
+    /**
+     * Gets the screenshot notification instance from the process application.
+     *
+     * @return screenshot notification instance
+     */
+    public ScreenShotNotifications getScreenShotNotifications() {
+        return screenShotNotifications;
     }
 
 }

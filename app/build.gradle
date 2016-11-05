@@ -100,7 +100,7 @@ dependencies {
     compile 'com.ToxicBakery.android.version:versions:1.0.13'
     compile 'com.google.code.gson:gson:2.5'
 
-    compile project(':tess-two')
+    compile 'com.rmtheis:tess-two:6.0.4'
 
     testCompile 'junit:junit:4.12'
 }

@@ -28,31 +28,18 @@ public class ScreenShotNotifications {
     private static final String TAG = "ScreenShotNotifications";
     private static final int NOTIFICATION_WORKING_ID = 1;
 
-    private static volatile ScreenShotNotifications instance;
-
     private final NotificationManagerCompat notificationManager;
+    private final Context context;
 
-    ScreenShotNotifications(@NonNull Context context) {
+    public ScreenShotNotifications(@NonNull Context context) {
+        this.context = context.getApplicationContext();
         notificationManager = NotificationManagerCompat.from(context.getApplicationContext());
 
         OcrImageResultStore.getEventBus()
                 .register(this);
     }
 
-    public static ScreenShotNotifications getInstance(@NonNull Context context) {
-        if (instance == null) {
-            synchronized (ScreenShotNotifications.class) {
-                if (instance == null) {
-                    instance = new ScreenShotNotifications(context.getApplicationContext());
-                }
-            }
-        }
-
-        return instance;
-    }
-
-    public void update(@NonNull Context context,
-                       @NonNull Uri uri,
+    public void update(@NonNull Uri uri,
                        @IntRange(from = 0, to = 100) int progress) {
 
         // Delete Intent
@@ -84,8 +71,7 @@ public class ScreenShotNotifications {
 
     // Processing complete
     @SuppressWarnings({"unused", "deprecation"})
-    public void onEventAsync(@NonNull Context context,
-                             @NonNull OcrImageResult ocrImageResult) {
+    public void onEventAsync(@NonNull OcrImageResult ocrImageResult) {
 
         Log.d(TAG, "Notifying completion");
 

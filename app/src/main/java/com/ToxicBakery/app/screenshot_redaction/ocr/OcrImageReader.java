@@ -11,6 +11,7 @@ import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import com.ToxicBakery.android.version.Is;
+import com.ToxicBakery.app.screenshot_redaction.ScreenshotApplication;
 import com.ToxicBakery.app.screenshot_redaction.notification.ScreenShotNotifications;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.IOcrEngine;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.IOcrEngine.IOcrProgress;
@@ -98,7 +99,8 @@ public class OcrImageReader {
                 engine.init(context);
 
                 // Sync updates
-                ScreenShotNotifications screenShotNotifications = ScreenShotNotifications.getInstance(context);
+                ScreenshotApplication screenshotApplication = (ScreenshotApplication) context.getApplicationContext();
+                ScreenShotNotifications screenShotNotifications = screenshotApplication.getScreenShotNotifications();
                 IOcrProgress ocrProgressCallback = new OcrProgressImpl(context, screenShotNotifications, uri);
                 Collection<OcrWordResult> boundingBoxes = engine.getWordResults(bitmap, ocrProgressCallback);
 
@@ -154,7 +156,7 @@ public class OcrImageReader {
             // Prevent spamming changes
             if (progress > lastUpdate) {
                 lastUpdate = progress;
-                screenShotNotifications.update(context, uri, progress);
+                screenShotNotifications.update(uri, progress);
             }
         }
 

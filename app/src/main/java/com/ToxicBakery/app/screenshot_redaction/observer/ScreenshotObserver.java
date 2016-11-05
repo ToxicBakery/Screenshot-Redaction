@@ -9,7 +9,7 @@ import android.provider.MediaStore.Images.Media;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.ToxicBakery.app.screenshot_redaction.notification.ScreenShotNotifications;
+import com.ToxicBakery.app.screenshot_redaction.ScreenshotApplication;
 
 import java.io.File;
 import java.util.Date;
@@ -48,6 +48,7 @@ public class ScreenshotObserver {
 
     }
 
+    @SuppressWarnings("WeakerAccess")
     static class ObserverImpl extends ContentObserver {
 
         private static final String TAG = "ObserverImpl";
@@ -88,7 +89,8 @@ public class ScreenshotObserver {
                             Log.i(TAG, "Screenshot date " + new Date(date) + " is before " + new Date(lastDate));
 
                             // Likely a deletion
-                            ScreenShotNotifications.getInstance(context)
+                            ((ScreenshotApplication) context.getApplicationContext())
+                                    .getScreenShotNotifications()
                                     .delete(uri);
 
                         } else if (file.exists()) {
