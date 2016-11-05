@@ -10,57 +10,37 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import rx.Observable;
-import rx.Subscriber;
+import rx.exceptions.Exceptions;
+import rx.functions.Func1;
 
-public class Licensing {
+public final class Licensing {
 
-    static Licensing instance;
+    private static volatile License[] licenses;
 
-    final Context context;
-
-    License[] licenses;
-
-    Licensing(@NonNull Context context) {
-        this.context = context;
+    private Licensing() {
     }
 
-    public static Licensing getInstance(@NonNull Context context) {
-        if (instance == null) {
-            synchronized (Licensing.class) {
-                if (instance == null) {
-                    instance = new Licensing(context);
-                }
-            }
-        }
+    public static Observable<License[]> getLicenses(@NonNull Context context) {
+        return Observable.just(context.getApplicationContext())
+                .map(new Func1<Context, License[]>() {
+                    @Override
+                    public License[] call(Context context) {
+                        synchronized (Licensing.class) {
+                            if (licenses == null) {
+                                InputStream inputStream = context.getResources().openRawResource(R.raw.licensing_list);
+                                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-        return instance;
-    }
-
-    public Observable<License[]> getLicenses() {
-        return Observable.create(new Observable.OnSubscribe<License[]>() {
-            @Override
-            public void call(Subscriber<? super License[]> subscriber) {
-
-                synchronized (Licensing.this) {
-                    if (licenses == null) {
-                        InputStream inputStream = context.getResources()
-                                .openRawResource(R.raw.licensing_list);
-                        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-                        try {
-                            licenses = new Gson()
-                                    .fromJson(inputStreamReader, License[].class);
-                        } catch (Exception e) {
-                            subscriber.onError(e);
-                            return;
+                                try {
+                                    licenses = new Gson().fromJson(inputStreamReader, License[].class);
+                                } catch (Exception e) {
+                                    throw Exceptions.propagate(e);
+                                }
+                            }
                         }
-                    }
-                }
 
-                subscriber.onNext(licenses);
-                subscriber.onCompleted();
-            }
-        });
+                        return licenses;
+                    }
+                });
     }
 
 }

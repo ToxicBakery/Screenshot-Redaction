@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="notification_title_found_items">Found Text in Screenshot</string>
-    <string name="notification_message_found_items">Your screenshot contains %1$d words. Select to perform redaction.</string>
-    <string name="notification_title_searching_image">Searching Image</string>
-    <string name="notification_message_search_image">Scanning image for text.</string>
+    <string name="notification_found_items_title">Found Text in Screenshot</string>
+    <string name="notification_found_items_message">Your screenshot contains %1$s. Select to perform redaction.</string>
+    <string name="notification_searching_image_title">Searching Image</string>
+    <string name="notification_search_image_message">Scanning image for text.</string>
+
+    <plurals name="notification_found_items_word_plurals">
+        <item quantity="one">%1$d word</item>
+        <item quantity="other">%1$d words</item>
+    </plurals>
 </resources>

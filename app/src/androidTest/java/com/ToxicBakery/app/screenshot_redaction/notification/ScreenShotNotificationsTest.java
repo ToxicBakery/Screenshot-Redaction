@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.v7.app.NotificationCompat;
 import android.test.AndroidTestCase;
 
-import com.ToxicBakery.app.screenshot_redaction.R;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResult;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultPublic;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultStore;
@@ -16,7 +15,7 @@ import java.util.LinkedList;
 
 public class ScreenShotNotificationsTest extends AndroidTestCase {
 
-    ScreenShotNotifications screenShotNotifications;
+    private ScreenShotNotifications screenShotNotifications;
 
     @Override
     protected void setUp() throws Exception {
@@ -32,7 +31,7 @@ public class ScreenShotNotificationsTest extends AndroidTestCase {
     public void testUpdate() throws Exception {
         Uri uri = Uri.parse("http://google.com/");
         for (int i = 0; i <= 100; i++) {
-            screenShotNotifications.update(uri, i);
+            screenShotNotifications.update(getContext(), uri, i);
         }
     }
 
@@ -71,15 +70,6 @@ public class ScreenShotNotificationsTest extends AndroidTestCase {
                 .build();
 
         screenShotNotifications.notify(uri, notification);
-    }
-
-    public void testGetString() throws Exception {
-        assertEquals(getContext().getString(R.string.app_name), screenShotNotifications.getString(R.string.app_name));
-    }
-
-    public void testGetString1() throws Exception {
-        String gen = screenShotNotifications.getString(R.string.notification_message_found_items, 1337);
-        assertEquals(getContext().getString(R.string.notification_message_found_items, 1337), gen);
     }
 
 }

@@ -1,5 +1,4 @@
 import org.mapdb.DB
-import org.mapdb.DBMaker
 
 apply plugin: 'com.android.application'
 
@@ -59,13 +58,13 @@ afterEvaluate {
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.ToxicBakery.app.screenshot_redaction"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -88,8 +87,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.android.support:recyclerview-v7:25.0.0'
     compile 'commons-io:commons-io:2.4'
     compile 'de.greenrobot:eventbus:2.4.0'
     compile 'org.mapdb:mapdb:2.0-beta12'

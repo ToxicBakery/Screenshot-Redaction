@@ -18,6 +18,8 @@ import com.ToxicBakery.app.screenshot_redaction.ocr.engine.OcrWordResult;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.TessTwoOcrEngine;
 import com.ToxicBakery.app.screenshot_redaction.util.PermissionCheck;
 
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
@@ -28,29 +30,10 @@ import rx.schedulers.Schedulers;
 
 import static com.ToxicBakery.android.version.SdkVersion.MARSHMALLOW;
 
+@SuppressWarnings("WeakerAccess")
 public class OcrImageReader {
 
     private static final String TAG = "OcrImageReader";
-
-    private static OcrImageReader instance;
-
-    private final Context context;
-
-    OcrImageReader(@NonNull Context context) {
-        this.context = context;
-    }
-
-    public static OcrImageReader getInstance(@NonNull Context context) {
-        if (instance == null) {
-            synchronized (OcrImageReader.class) {
-                if (instance == null) {
-                    instance = new OcrImageReader(context.getApplicationContext());
-                }
-            }
-        }
-
-        return instance;
-    }
 
     @WorkerThread
     static Bitmap uriToBitmap(@NonNull Context context,
@@ -62,17 +45,19 @@ public class OcrImageReader {
         try {
             return BitmapFactory.decodeStream(inputStream);
         } finally {
-            if (inputStream != null) {
-                inputStream.close();
-            }
+            IOUtils.closeQuietly(inputStream);
         }
     }
 
-    public void submit(@NonNull Uri uri) {
+    public void submit(@NonNull Context context,
+                       @NonNull Uri uri) {
+
+        OcrImageWorker ocrImageWorker = new OcrImageWorker(context);
+
         Observable.just(uri)
                 .observeOn(Schedulers.computation())
                 .subscribeOn(Schedulers.computation())
-                .subscribe(new OcrImageWorker(context));
+                .subscribe(ocrImageWorker);
     }
 
     static class OcrImageWorker implements Action1<Uri> {
@@ -83,8 +68,8 @@ public class OcrImageReader {
 
         private final Context context;
 
-        public OcrImageWorker(@NonNull Context context) {
-            this.context = context;
+        OcrImageWorker(@NonNull Context context) {
+            this.context = context.getApplicationContext();
         }
 
         @Override
@@ -114,7 +99,7 @@ public class OcrImageReader {
 
                 // Sync updates
                 ScreenShotNotifications screenShotNotifications = ScreenShotNotifications.getInstance(context);
-                IOcrProgress ocrProgressCallback = new OcrProgressImpl(screenShotNotifications, uri);
+                IOcrProgress ocrProgressCallback = new OcrProgressImpl(context, screenShotNotifications, uri);
                 Collection<OcrWordResult> boundingBoxes = engine.getWordResults(bitmap, ocrProgressCallback);
 
                 // Clean up
@@ -149,14 +134,17 @@ public class OcrImageReader {
 
     static class OcrProgressImpl implements IOcrProgress {
 
+        private final Context context;
         private final ScreenShotNotifications screenShotNotifications;
         private final Uri uri;
 
         private int lastUpdate = -1;
 
-        public OcrProgressImpl(@NonNull ScreenShotNotifications screenShotNotifications,
-                               @NonNull Uri uri) {
+        OcrProgressImpl(@NonNull Context context,
+                        @NonNull ScreenShotNotifications screenShotNotifications,
+                        @NonNull Uri uri) {
 
+            this.context = context.getApplicationContext();
             this.screenShotNotifications = screenShotNotifications;
             this.uri = uri;
         }
@@ -166,7 +154,7 @@ public class OcrImageReader {
             // Prevent spamming changes
             if (progress > lastUpdate) {
                 lastUpdate = progress;
-                screenShotNotifications.update(uri, progress);
+                screenShotNotifications.update(context, uri, progress);
             }
         }
 

@@ -70,15 +70,14 @@ public class ScreenshotService extends Service {
 
         private final Context context;
 
-        public ScreenshotContentObserver(Context context) {
-            this.context = context;
+        ScreenshotContentObserver(Context context) {
+            this.context = context.getApplicationContext();
         }
 
         @Override
         public void onScreenShot(Uri uri) {
             Log.d(TAG, "Screenshot added: " + uri);
-            OcrImageReader.getInstance(context)
-                    .submit(uri);
+            new OcrImageReader().submit(context, uri);
         }
 
     }

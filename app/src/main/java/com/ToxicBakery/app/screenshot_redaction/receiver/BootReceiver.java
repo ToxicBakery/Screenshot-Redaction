@@ -10,7 +10,9 @@ public class BootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        ScreenshotService.startScreenshotService(context);
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            ScreenshotService.startScreenshotService(context);
+        }
     }
 
 }

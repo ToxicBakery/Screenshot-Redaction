@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
@@ -23,19 +22,18 @@ import com.ToxicBakery.app.screenshot_redaction.receiver.DeleteReceiver;
 
 import java.util.Collection;
 
+@SuppressWarnings("WeakerAccess")
 public class ScreenShotNotifications {
 
     private static final String TAG = "ScreenShotNotifications";
     private static final int NOTIFICATION_WORKING_ID = 1;
 
-    private static ScreenShotNotifications instance;
+    private static volatile ScreenShotNotifications instance;
 
-    private final Context context;
     private final NotificationManagerCompat notificationManager;
 
     ScreenShotNotifications(@NonNull Context context) {
-        this.context = context;
-        notificationManager = NotificationManagerCompat.from(context);
+        notificationManager = NotificationManagerCompat.from(context.getApplicationContext());
 
         OcrImageResultStore.getEventBus()
                 .register(this);
@@ -53,7 +51,8 @@ public class ScreenShotNotifications {
         return instance;
     }
 
-    public void update(@NonNull Uri uri,
+    public void update(@NonNull Context context,
+                       @NonNull Uri uri,
                        @IntRange(from = 0, to = 100) int progress) {
 
         // Delete Intent
@@ -65,10 +64,10 @@ public class ScreenShotNotifications {
                 .setOngoing(true)
                 .setSmallIcon(android.R.drawable.ic_menu_search)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), android.R.drawable.ic_menu_search))
-                .setContentTitle(getString(R.string.notification_title_searching_image))
-                .setContentText(getString(R.string.notification_message_search_image))
+                .setContentTitle(context.getString(R.string.notification_searching_image_title))
+                .setContentText(context.getString(R.string.notification_search_image_message))
                 .setProgress(100, progress, false)
-                .addAction(android.R.drawable.ic_delete, getString(android.R.string.cancel), deletePendingIntent)
+                .addAction(android.R.drawable.ic_delete, context.getString(android.R.string.cancel), deletePendingIntent)
                 .build();
 
         notify(uri, notification);
@@ -85,7 +84,9 @@ public class ScreenShotNotifications {
 
     // Processing complete
     @SuppressWarnings({"unused", "deprecation"})
-    public void onEventAsync(OcrImageResult ocrImageResult) {
+    public void onEventAsync(@NonNull Context context,
+                             @NonNull OcrImageResult ocrImageResult) {
+
         Log.d(TAG, "Notifying completion");
 
         Uri uri = ocrImageResult.getUri();
@@ -102,12 +103,15 @@ public class ScreenShotNotifications {
         Intent deleteIntent = DeleteReceiver.createDeleteIntent(context, uri);
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, uri.hashCode(), deleteIntent, 0);
 
+        String wordQtyString = context.getResources()
+                .getQuantityString(R.plurals.notification_found_items_word_plurals, boundingBoxesCount);
+
         // Notify the user the screenshot has <boundingBoxesCount> items found in it
         Notification notification = new NotificationCompat.Builder(context)
                 .setSmallIcon(android.R.drawable.ic_menu_search)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), android.R.drawable.ic_menu_search))
-                .setContentTitle(getString(R.string.notification_title_found_items))
-                .setContentText(getString(R.string.notification_message_found_items, boundingBoxesCount))
+                .setContentTitle(context.getString(R.string.notification_found_items_title))
+                .setContentText(context.getString(R.string.notification_found_items_message, wordQtyString))
                 .setAutoCancel(true)
                 .setLocalOnly(true)
                 .setColor(ContextCompat.getColor(context, R.color.primary_dark))
@@ -124,18 +128,6 @@ public class ScreenShotNotifications {
                 @NonNull Notification notification) {
 
         notificationManager.notify(uri.toString(), NOTIFICATION_WORKING_ID, notification);
-    }
-
-    @NonNull
-    String getString(@StringRes int stringRes) {
-        return context.getString(stringRes);
-    }
-
-    @NonNull
-    String getString(@StringRes int stringRes,
-                     @NonNull Object... formatArgs) {
-
-        return context.getString(stringRes, formatArgs);
     }
 
 }

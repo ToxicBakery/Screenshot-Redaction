@@ -74,8 +74,7 @@ public class FragmentLicenseList extends Fragment {
     public void onResume() {
         super.onResume();
 
-        subscribeLoadLicenses = Licensing.getInstance(getContext())
-                .getLicenses()
+        subscribeLoadLicenses = Licensing.getLicenses(getContext())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<License[]>() {

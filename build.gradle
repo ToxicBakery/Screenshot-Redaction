@@ -5,8 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'org.mapdb:mapdb:2.0-beta12'
+        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'org.mapdb:mapdb:3.0.2'
     }
 }
 
