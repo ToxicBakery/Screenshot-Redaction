@@ -90,7 +90,10 @@ public class ScreenShotNotifications {
         PendingIntent deletePendingIntent = PendingIntent.getBroadcast(context, uri.hashCode(), deleteIntent, 0);
 
         String wordQtyString = context.getResources()
-                .getQuantityString(R.plurals.notification_found_items_word_plurals, boundingBoxesCount);
+                .getQuantityString(
+                        R.plurals.notification_found_items_word_plurals,
+                        boundingBoxesCount,
+                        boundingBoxesCount);
 
         // Notify the user the screenshot has <boundingBoxesCount> items found in it
         Notification notification = new NotificationCompat.Builder(context)
