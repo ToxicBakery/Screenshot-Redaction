@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class DictionarySelectionDialog extends DialogFragment implements DialogInterface.OnMultiChoiceClickListener {
@@ -53,7 +55,8 @@ public class DictionarySelectionDialog extends DialogFragment implements DialogI
     @Override
     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
         String uuid = entryValues[which];
-        dictionaryProvider.setDictionaryEnabled(uuid, isChecked);
+        dictionaryProvider.setDictionaryEnabled(uuid, isChecked)
+                .subscribe();
     }
 
     private class DictionaryAction extends Subscriber<IDictionaryStatus> {

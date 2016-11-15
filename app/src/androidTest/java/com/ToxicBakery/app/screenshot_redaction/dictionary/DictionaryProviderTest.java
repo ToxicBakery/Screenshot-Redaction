@@ -2,12 +2,12 @@ package com.ToxicBakery.app.screenshot_redaction.dictionary;
 
 import android.test.AndroidTestCase;
 
-import rx.Subscriber;
+import rx.Observable;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
+import rx.functions.Func1;
 
 public class DictionaryProviderTest extends AndroidTestCase {
-    
+
     public void testGetInstance() throws Exception {
         DictionaryProvider.getInstance(getContext());
     }
@@ -15,18 +15,16 @@ public class DictionaryProviderTest extends AndroidTestCase {
     public void testSetDictionaryEnabled() throws Exception {
         final DictionaryProvider dictionaryProvider = DictionaryProvider.getInstance(getContext());
         dictionaryProvider.getDictionaries()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
-                .subscribe(new Action1<IDictionaryStatus>() {
+                .flatMap(new Func1<IDictionaryStatus, Observable<Boolean>>() {
                     @Override
-                    public void call(IDictionaryStatus dictionaryStatus) {
-                        dictionaryProvider.setDictionaryEnabled(dictionaryStatus.getDictionary(), false);
+                    public Observable<Boolean> call(IDictionaryStatus dictionaryStatus) {
+                        String uuid = dictionaryStatus.getDictionary().getUUID();
+                        return dictionaryProvider.setDictionaryEnabled(uuid, false);
                     }
-                });
+                })
+                .subscribe();
 
         dictionaryProvider.getDictionaries()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
                 .subscribe(new Action1<IDictionaryStatus>() {
                     @Override
                     public void call(IDictionaryStatus dictionaryStatus) {
@@ -35,18 +33,15 @@ public class DictionaryProviderTest extends AndroidTestCase {
                 });
 
         dictionaryProvider.getDictionaries()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
-                .subscribe(new Action1<IDictionaryStatus>() {
+                .flatMap(new Func1<IDictionaryStatus, Observable<Boolean>>() {
                     @Override
-                    public void call(IDictionaryStatus dictionaryStatus) {
-                        dictionaryProvider.setDictionaryEnabled(dictionaryStatus.getDictionary(), true);
+                    public Observable<Boolean> call(IDictionaryStatus dictionaryStatus) {
+                        String uuid = dictionaryStatus.getDictionary().getUUID();
+                        return dictionaryProvider.setDictionaryEnabled(uuid, true);
                     }
                 });
 
         dictionaryProvider.getDictionaries()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
                 .subscribe(new Action1<IDictionaryStatus>() {
                     @Override
                     public void call(IDictionaryStatus dictionaryStatus) {
@@ -58,21 +53,9 @@ public class DictionaryProviderTest extends AndroidTestCase {
     public void testGetDictionaries() throws Exception {
         DictionaryProvider dictionaryProvider = DictionaryProvider.getInstance(getContext());
         dictionaryProvider.getDictionaries()
-                .observeOn(Schedulers.immediate())
-                .subscribeOn(Schedulers.immediate())
-                .subscribe(new Subscriber<IDictionaryStatus>() {
+                .subscribe(new Action1<IDictionaryStatus>() {
                     @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        fail(e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(IDictionaryStatus dictionaryStatus) {
-                        assertTrue(dictionaryStatus.isEnabled());
+                    public void call(IDictionaryStatus dictionaryStatus) {
                     }
                 });
     }
