@@ -125,7 +125,7 @@ public class FragmentInitialize extends Fragment implements View.OnClickListener
     @MainThread
     void performCopy() {
         Context context = getContext();
-        CopyToSdCard.copy(new TessDataRawResourceCopyConfiguration(context, R.raw.eng));
+        new CopyToSdCard().copy(new TessDataRawResourceCopyConfiguration(context, R.raw.eng));
         DictionaryEnglish.getInstance(context);
         DictionaryEnglishNames.getInstance(context);
         ScreenshotService.startScreenshotService(context);

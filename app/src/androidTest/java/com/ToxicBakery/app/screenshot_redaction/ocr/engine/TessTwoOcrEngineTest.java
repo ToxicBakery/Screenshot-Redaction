@@ -1,15 +1,22 @@
 package com.ToxicBakery.app.screenshot_redaction.ocr.engine;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.IntRange;
-import android.test.AndroidTestCase;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import com.ToxicBakery.app.screenshot_redaction.R;
+import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
 
 import org.apache.commons.io.IOUtils;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,9 +24,20 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 
-public class TessTwoOcrEngineTest extends AndroidTestCase {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    static Bitmap genBitmap(int width, int height, String text) {
+@RunWith(AndroidJUnit4.class)
+public class TessTwoOcrEngineTest {
+
+    @Rule
+    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
+
+    private Context getContext() {
+        return activityTestRule.getActivity();
+    }
+
+    private static Bitmap genBitmap(int width, int height, String text) {
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Paint paint = new Paint();
         Canvas canvas = new Canvas(bitmap);
@@ -36,10 +54,8 @@ public class TessTwoOcrEngineTest extends AndroidTestCase {
         return bitmap;
     }
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
+    @Before
+    public void setUp() throws Exception {
         File tessData = new File(getContext().getExternalFilesDir(null), "tessdata");
         assertTrue(tessData.exists() || tessData.mkdirs());
 
@@ -52,12 +68,13 @@ public class TessTwoOcrEngineTest extends AndroidTestCase {
         IOUtils.closeQuietly(outputStream);
     }
 
+    @Test
     public void testGetWordResults() throws Exception {
         Bitmap bitmap = genBitmap(640, 480, "Hello");
 
         TessTwoOcrEngine tessTwoOcrEngine = new TessTwoOcrEngine();
         tessTwoOcrEngine.init(getContext());
-        Collection<OcrWordResult> wordResults = tessTwoOcrEngine.getWordResults(bitmap, new EmptyProgerss());
+        Collection<OcrWordResult> wordResults = tessTwoOcrEngine.getWordResults(bitmap, new EmptyProgress());
         tessTwoOcrEngine.recycle();
 
         assertEquals(1, wordResults.size());
@@ -67,18 +84,19 @@ public class TessTwoOcrEngineTest extends AndroidTestCase {
         assertTrue(ocrWordResults[0].getWordConfidence() > 0.9d);
     }
 
+    @Test
     public void testBlankImage() throws Exception {
         Bitmap bitmap = genBitmap(640, 480, "");
 
         TessTwoOcrEngine tessTwoOcrEngine = new TessTwoOcrEngine();
         tessTwoOcrEngine.init(getContext());
-        Collection<OcrWordResult> wordResults = tessTwoOcrEngine.getWordResults(bitmap, new EmptyProgerss());
+        Collection<OcrWordResult> wordResults = tessTwoOcrEngine.getWordResults(bitmap, new EmptyProgress());
         tessTwoOcrEngine.recycle();
 
         assertEquals(0, wordResults.size());
     }
 
-    static class EmptyProgerss implements IOcrEngine.IOcrProgress {
+    static class EmptyProgress implements IOcrEngine.IOcrProgress {
 
         @Override
         public void onProgress(@IntRange(from = 0, to = 100) int progress) {

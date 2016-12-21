@@ -1,40 +1,55 @@
 package com.ToxicBakery.app.screenshot_redaction.notification;
 
 import android.app.Notification;
+import android.content.Context;
 import android.net.Uri;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.app.NotificationCompat;
-import android.test.AndroidTestCase;
 
+import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
+import com.ToxicBakery.app.screenshot_redaction.bus.OcrImageResultBus;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResult;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultPublic;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultStore;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.OcrWordResult;
 
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class ScreenShotNotificationsTest extends AndroidTestCase {
+import static org.junit.Assert.assertNull;
+
+@RunWith(AndroidJUnit4.class)
+public class ScreenShotNotificationsTest {
+
+    @Rule
+    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
 
     private ScreenShotNotifications screenShotNotifications;
 
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-
-        screenShotNotifications = ScreenShotNotifications.getInstance(getContext());
+    private Context getContext() {
+        return activityTestRule.getActivity();
     }
 
-    public void testGetInstance() throws Exception {
-        assertEquals(screenShotNotifications, ScreenShotNotifications.getInstance(getContext()));
+    @Before
+    public void setUp() throws Exception {
+        screenShotNotifications = new ScreenShotNotifications(getContext());
     }
 
+    @Test
     public void testUpdate() throws Exception {
         Uri uri = Uri.parse("http://google.com/");
         for (int i = 0; i <= 100; i++) {
-            screenShotNotifications.update(getContext(), uri, i);
+            screenShotNotifications.update(uri, i);
         }
     }
 
+    @Test
     public void testDelete() throws Exception {
         Uri uri = Uri.parse("http://google.com/");
         Collection<OcrWordResult> boundingBoxes = new LinkedList<>();
@@ -50,15 +65,17 @@ public class ScreenShotNotificationsTest extends AndroidTestCase {
         assertNull(ocrImageResult);
     }
 
+    @Test
     public void testOnEventAsync() throws Exception {
         Uri uri = Uri.parse("http://google.com/");
         Collection<OcrWordResult> boundingBoxes = new LinkedList<>();
         OcrImageResult ocrImageResult = new OcrImageResultPublic(uri, boundingBoxes);
 
-        OcrImageResultStore.getEventBus()
+        OcrImageResultBus.getInstance()
                 .post(ocrImageResult);
     }
 
+    @Test
     public void testNotify() throws Exception {
         Uri uri = Uri.parse("http://google.com/");
         Notification notification = new NotificationCompat.Builder(getContext())

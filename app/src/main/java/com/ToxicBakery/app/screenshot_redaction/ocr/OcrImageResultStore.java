@@ -4,29 +4,22 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.ToxicBakery.app.screenshot_redaction.bus.OcrImageResultBus;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import de.greenrobot.event.EventBus;
-
+@SuppressWarnings("WeakerAccess")
 public class OcrImageResultStore {
-
-    private static final EventBus OCR_BUS = EventBus.builder()
-            .logNoSubscriberMessages(true)
-            .logSubscriberExceptions(true)
-            .throwSubscriberException(true)
-            .build();
 
     private static OcrImageResultStore instance;
 
     private final Map<Uri, OcrImageResult> results;
+    private final OcrImageResultBus ocrImageResultBus;
 
     OcrImageResultStore() {
         results = new HashMap<>();
-    }
-
-    public static EventBus getEventBus() {
-        return OCR_BUS;
+        ocrImageResultBus = OcrImageResultBus.getInstance();
     }
 
     public static OcrImageResultStore getInstance() {
@@ -54,7 +47,7 @@ public class OcrImageResultStore {
 
     void storeResultAndNotify(@NonNull OcrImageResult ocrImageResult) {
         storeResult(ocrImageResult);
-        OCR_BUS.post(ocrImageResult);
+        ocrImageResultBus.post(ocrImageResult);
     }
 
     /**

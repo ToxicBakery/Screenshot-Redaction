@@ -7,12 +7,16 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 
+import com.bluelinelabs.logansquare.annotation.JsonField;
+import com.bluelinelabs.logansquare.annotation.JsonObject;
+
 import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @SuppressWarnings("unused")
+@JsonObject
 public final class License implements Parcelable {
 
     public static final Creator<License> CREATOR = new Creator<License>() {
@@ -27,8 +31,17 @@ public final class License implements Parcelable {
         }
     };
 
-    private String name;
-    private String licenseIdentifier;
+    @JsonField
+    String name;
+
+    @JsonField
+    String licenseIdentifier;
+
+    /**
+     * Package private constructor for Logan Square
+     */
+    License() {
+    }
 
     protected License(Parcel in) {
         name = in.readString();

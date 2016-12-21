@@ -12,8 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ToxicBakery.app.screenshot_redaction.R;
-
-import de.greenrobot.event.EventBus;
+import com.ToxicBakery.app.screenshot_redaction.bus.TutorialBus;
 
 public class FragmentTutorial extends Fragment implements View.OnClickListener {
 
@@ -22,18 +21,11 @@ public class FragmentTutorial extends Fragment implements View.OnClickListener {
     private static final String EXTRA_TEXT = "EXTRA_TEXT";
     private static final String EXTRA_IMAGE = "EXTRA_IMAGE";
 
-    private static final EventBus ARROW_SELECT_BUS = EventBus.builder()
-            .logNoSubscriberMessages(true)
-            .logSubscriberExceptions(true)
-            .throwSubscriberException(true)
-            .build();
-
-    public static EventBus getEventBus() {
-        return ARROW_SELECT_BUS;
-    }
+    private TutorialBus tutorialBus = TutorialBus.getInstance();
 
     public static FragmentTutorial createInstance(@StringRes int description,
                                                   @DrawableRes int image) {
+
         Bundle bundle = new Bundle();
         bundle.putInt(EXTRA_TEXT, description);
         bundle.putInt(EXTRA_IMAGE, image);
@@ -71,7 +63,7 @@ public class FragmentTutorial extends Fragment implements View.OnClickListener {
     }
 
     void moveToNextPage() {
-        ARROW_SELECT_BUS.post(ARROW_RIGHT);
+        tutorialBus.post(ARROW_RIGHT);
     }
 
 }

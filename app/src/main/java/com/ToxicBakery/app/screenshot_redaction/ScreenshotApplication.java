@@ -2,7 +2,6 @@ package com.ToxicBakery.app.screenshot_redaction;
 
 import android.Manifest;
 import android.app.Application;
-import android.os.Handler;
 import android.util.Log;
 
 import com.ToxicBakery.android.version.Is;
@@ -17,6 +16,10 @@ import com.ToxicBakery.app.screenshot_redaction.util.PermissionCheck;
 import java.io.File;
 
 import jonathanfinerty.once.Once;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import timber.log.Timber;
 
 import static com.ToxicBakery.android.version.SdkVersion.MARSHMALLOW;
 
@@ -35,33 +38,22 @@ public class ScreenshotApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
+        // Install Timber
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
+
         Once.initialise(this);
         screenShotNotifications = new ScreenShotNotifications(this);
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-
-                if (!Once.beenDone(REMOVE_OLD_DIR)) {
-                    Once.markDone(REMOVE_OLD_DIR);
-
-                    File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
-                    if (externalFilesDir != null
-                            && externalFilesDir.exists()
-                            && !externalFilesDir.delete()) {
-
-                        Log.e(TAG, "Failed to delete external storage directory");
+        Observable.just(true)
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Boolean>() {
+                    @Override
+                    public void call(Boolean aBoolean) {
+                        initializeResources();
                     }
-                }
-
-                if (Is.lessThan(MARSHMALLOW) || PermissionCheck.hasPermissions(getApplicationContext(), PERMISSIONS)) {
-                    CopyToSdCard.copy(new TessDataRawResourceCopyConfiguration(getApplicationContext(), R.raw.eng));
-                    DictionaryEnglish.getInstance(getApplicationContext());
-                    DictionaryEnglishNames.getInstance(getApplicationContext());
-                    ScreenshotService.startScreenshotService(getApplicationContext());
-                }
-            }
-        });
+                });
     }
 
     /**
@@ -71,6 +63,29 @@ public class ScreenshotApplication extends Application {
      */
     public ScreenShotNotifications getScreenShotNotifications() {
         return screenShotNotifications;
+    }
+
+    void initializeResources() {
+        if (!Once.beenDone(REMOVE_OLD_DIR)) {
+            Once.markDone(REMOVE_OLD_DIR);
+
+            File externalFilesDir = getApplicationContext().getExternalFilesDir(null);
+            if (externalFilesDir != null
+                    && externalFilesDir.exists()
+                    && !externalFilesDir.delete()) {
+
+                Log.e(TAG, "Failed to delete external storage directory");
+            }
+        }
+
+        if (Is.lessThan(MARSHMALLOW) || PermissionCheck.hasPermissions(getApplicationContext(), PERMISSIONS)) {
+            new CopyToSdCard()
+                    .copy(new TessDataRawResourceCopyConfiguration(getApplicationContext(), R.raw.eng));
+
+            DictionaryEnglish.getInstance(getApplicationContext());
+            DictionaryEnglishNames.getInstance(getApplicationContext());
+            ScreenshotService.startScreenshotService(getApplicationContext());
+        }
     }
 
 }

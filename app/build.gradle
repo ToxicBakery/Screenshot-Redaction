@@ -1,93 +1,46 @@
 import org.mapdb.DB
+import org.mapdb.DBMaker
 
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
-afterEvaluate {
-
-    //noinspection GroovyAssignabilityCheck
-    task genMapDbHashSet {
-        File inDir = file("resources/wordlists")
-        File outDir = file("src/main/res/raw")
-
-        inputs.dir inDir
-        outputs.dir outDir
-
-        doLast {
-            // Grab all wordlists
-            File[] wordLists = inDir.listFiles(new FilenameFilter() {
-                @Override
-                boolean accept(File dir, String filename) {
-                    return filename.startsWith("wordlist_")
-                }
-            })
-
-            for (File wordList : wordLists) {
-                File outFile = new File(outDir, wordList.getName())
-                if (outFile.exists() && !outFile.delete()) {
-                    throw new IOException("Failed to remove previously genereated dictionary")
-                }
-
-                DB db = DBMaker.fileDB(outFile)
-                        .strictDBGet()
-                        .transactionDisable()
-                        .make()
-
-                Set<String> wordSet = db.hashSetCreate("wordlist")
-                        .make()
-
-                Reader reader = new FileReader(wordList)
-                String line
-                while ((line = reader.readLine()) != null) {
-                    line = line.trim()
-                    if (!line.empty)
-                        wordSet.add(line)
-                }
-
-                reader.close()
-
-                // Cleanup
-                db.commit()
-                db.compact()
-                db.close()
-            }
-        }
-    }
-
-    //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
-    preDebugBuild.dependsOn genMapDbHashSet
+ext {
+    useSplits = false
 }
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.0"
+    compileSdkVersion sdkCompile
+    buildToolsVersion sdkBuildTools
 
     defaultConfig {
         applicationId "com.ToxicBakery.app.screenshot_redaction"
-        minSdkVersion 19
-        targetSdkVersion 25
-        versionCode 1
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+        minSdkVersion sdkMinimum
+        targetSdkVersion sdkTarget
         versionName "1.0"
     }
 
     buildTypes {
-        ocrTest {
+/*        ocrTest {
+            applicationIdSuffix ".ocrTest"
             debuggable true
             signingConfig signingConfigs.debug
-        }
+        }*/
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
-    splits {
+/*    splits {
         abi {
-            enable true
+            enable useSplits
             reset()
             include 'arm64-v8a', 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'x86', 'x86_64'
-            universalApk false
+            universalApk !useSplits
         }
-    }
+    }*/
 }
 
 repositories {
@@ -97,21 +50,71 @@ repositories {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:25.0.0'
-    compile 'com.android.support:recyclerview-v7:25.0.0'
-    compile 'commons-io:commons-io:2.4'
-    compile 'de.greenrobot:eventbus:2.4.0'
-    compile 'org.mapdb:mapdb:2.0-beta12'
-    compile 'com.commit451:PhotoView:1.2.4'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'io.reactivex:rxjava:1.1.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.jonathanfinerty.once:once:0.4.2'
-    compile 'com.ToxicBakery.android.version:versions:1.0.13'
-    compile 'com.google.code.gson:gson:2.5'
-    compile 'com.github.pakoito:RxTuples:1.0.0'
+    androidTestCompile androidSupportAnnotations // Support annotations included to override test libs old version
+    androidTestCompile androidTestRunner
+    androidTestCompile androidTestRules
+    androidTestCompile androidTestEspressoCore
 
-    compile 'com.rmtheis:tess-two:6.0.4'
+    testCompile junit
 
-    testCompile 'junit:junit:4.12'
+    apt loganSquareCompiler
+
+    compile androidAppCompat
+    compile androidRecyclerView
+    compile commonsIO
+    compile loganSquare
+    compile mapDB
+    compile once
+    compile photoView
+    compile picasso
+    compile rxAndroid
+    compile rxJava
+    compile rxTuples
+    compile tessTwo
+    compile timber
+    compile versions
+}
+
+//noinspection GroovyAssignabilityCheck
+task genMapDbHashSet {
+    File inDir = file("resources/wordlists")
+    File outDir = file("src/main/res/raw")
+
+    inputs.dir inDir
+
+    doLast {
+        inDir.listFiles(new FilenameFilter() {
+            @Override
+            boolean accept(File dir, String filename) {
+                return filename.startsWith("wordlist_")
+            }
+        }).each { wordList ->
+            File outFile = new File(outDir, wordList.getName())
+            if (outFile.exists() && !outFile.delete()) {
+                throw new IOException("Failed to remove previously genereated dictionary")
+            }
+
+            DB db = DBMaker.fileDB(outFile)
+                    .transactionDisable()
+                    .make()
+
+            Set<String> wordSet = db.hashSet("wordlist")
+
+            new FileReader(wordList)
+                    .readLines()
+                    .each { it.trim() }
+                    .removeIf { it.empty }
+                    .each { wordSet.add(it) }
+
+            // Cleanup
+            db.commit()
+            db.compact()
+            db.close()
+        }
+    }
+}
+
+afterEvaluate {
+    //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+    preDebugBuild.dependsOn genMapDbHashSet
 }

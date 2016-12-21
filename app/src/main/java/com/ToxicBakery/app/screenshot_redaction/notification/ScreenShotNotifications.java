@@ -15,12 +15,17 @@ import android.util.Log;
 
 import com.ToxicBakery.app.screenshot_redaction.ActivityRedactImage;
 import com.ToxicBakery.app.screenshot_redaction.R;
+import com.ToxicBakery.app.screenshot_redaction.bus.OcrImageResultBus;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResult;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultStore;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.OcrWordResult;
 import com.ToxicBakery.app.screenshot_redaction.receiver.DeleteReceiver;
 
 import java.util.Collection;
+
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 @SuppressWarnings("WeakerAccess")
 public class ScreenShotNotifications {
@@ -35,8 +40,17 @@ public class ScreenShotNotifications {
         this.context = context.getApplicationContext();
         notificationManager = NotificationManagerCompat.from(context.getApplicationContext());
 
-        OcrImageResultStore.getEventBus()
-                .register(this);
+        OcrImageResultBus.getInstance()
+                .register()
+                .first()
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<OcrImageResult>() {
+                    @Override
+                    public void call(OcrImageResult ocrImageResult) {
+                        onOcrImageResult(ocrImageResult);
+                    }
+                });
     }
 
     public void update(@NonNull Uri uri,
@@ -69,10 +83,7 @@ public class ScreenShotNotifications {
         notificationManager.cancel(uri.toString(), NOTIFICATION_WORKING_ID);
     }
 
-    // Processing complete
-    @SuppressWarnings({"unused", "deprecation"})
-    public void onEventAsync(@NonNull OcrImageResult ocrImageResult) {
-
+    void onOcrImageResult(@NonNull OcrImageResult ocrImageResult) {
         Log.d(TAG, "Notifying completion");
 
         Uri uri = ocrImageResult.getUri();

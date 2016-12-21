@@ -37,8 +37,6 @@ public class DictionarySelectionDialog extends DialogFragment implements DialogI
         dictionaryProvider = DictionaryProvider.getInstance(getActivity());
 
         dictionaryProvider.getDictionaries()
-                .subscribeOn(Schedulers.immediate())
-                .observeOn(Schedulers.immediate())
                 .subscribe(new DictionaryAction());
     }
 
@@ -59,7 +57,7 @@ public class DictionarySelectionDialog extends DialogFragment implements DialogI
                 .subscribe();
     }
 
-    private class DictionaryAction extends Subscriber<IDictionaryStatus> {
+    class DictionaryAction extends Subscriber<IDictionaryStatus> {
 
         final List<CharSequence> displayValuesList = new LinkedList<>();
         final List<String> entryValuesList = new LinkedList<>();
