@@ -3,11 +3,10 @@ package com.ToxicBakery.app.screenshot_redaction.notification;
 import android.app.Notification;
 import android.content.Context;
 import android.net.Uri;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.app.NotificationCompat;
 
-import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
 import com.ToxicBakery.app.screenshot_redaction.bus.OcrImageResultBus;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResult;
 import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultPublic;
@@ -15,7 +14,6 @@ import com.ToxicBakery.app.screenshot_redaction.ocr.OcrImageResultStore;
 import com.ToxicBakery.app.screenshot_redaction.ocr.engine.OcrWordResult;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -27,13 +25,10 @@ import static org.junit.Assert.assertNull;
 @RunWith(AndroidJUnit4.class)
 public class ScreenShotNotificationsTest {
 
-    @Rule
-    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
-
     private ScreenShotNotifications screenShotNotifications;
 
     private Context getContext() {
-        return activityTestRule.getActivity();
+        return InstrumentationRegistry.getTargetContext();
     }
 
     @Before

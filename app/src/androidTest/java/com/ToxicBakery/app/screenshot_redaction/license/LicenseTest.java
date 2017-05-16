@@ -3,14 +3,12 @@ package com.ToxicBakery.app.screenshot_redaction.license;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Parcel;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
 import com.bluelinelabs.logansquare.LoganSquare;
 
 import org.apache.commons.io.IOUtils;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -24,11 +22,8 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class LicenseTest {
 
-    @Rule
-    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
-
     private Context getContext() {
-        return activityTestRule.getActivity();
+        return InstrumentationRegistry.getTargetContext();
     }
 
     @Test

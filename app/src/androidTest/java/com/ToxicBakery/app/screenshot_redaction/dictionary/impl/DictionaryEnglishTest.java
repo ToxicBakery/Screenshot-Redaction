@@ -1,18 +1,16 @@
 package com.ToxicBakery.app.screenshot_redaction.dictionary.impl;
 
 import android.content.Context;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.ToxicBakery.app.screenshot_redaction.R;
-import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
 import com.ToxicBakery.app.screenshot_redaction.bus.CopyBus;
 import com.ToxicBakery.app.screenshot_redaction.copy.CopyToSdCard;
 import com.ToxicBakery.app.screenshot_redaction.copy.WordListRawResourceCopyConfiguration;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapdb.DB;
@@ -34,12 +32,10 @@ import static org.junit.Assert.assertTrue;
 public class DictionaryEnglishTest {
 
     private final Semaphore semaphore = new Semaphore(0);
-    @Rule
-    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
     private Subscription subscription;
 
     private Context getContext() {
-        return activityTestRule.getActivity();
+        return InstrumentationRegistry.getTargetContext();
     }
 
     @Before
@@ -96,7 +92,7 @@ public class DictionaryEnglishTest {
                 .readOnly()
                 .make();
 
-        Set<String> words = db.hashSet("wordlist");
+        Set<String> words = db.hashSet(dictionary.getUUID());
         for (String word : words) {
             assertFalse("Invalid redaction of " + word, dictionary.shouldRedact(word));
         }

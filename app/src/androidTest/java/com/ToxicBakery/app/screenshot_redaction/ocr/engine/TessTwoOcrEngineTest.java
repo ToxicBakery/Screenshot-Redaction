@@ -6,15 +6,13 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.IntRange;
-import android.support.test.rule.ActivityTestRule;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.ToxicBakery.app.screenshot_redaction.R;
-import com.ToxicBakery.app.screenshot_redaction.ActivityTest;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -30,11 +28,8 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class TessTwoOcrEngineTest {
 
-    @Rule
-    public ActivityTestRule<ActivityTest> activityTestRule = new ActivityTestRule<>(ActivityTest.class);
-
     private Context getContext() {
-        return activityTestRule.getActivity();
+        return InstrumentationRegistry.getTargetContext();
     }
 
     private static Bitmap genBitmap(int width, int height, String text) {

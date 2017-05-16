@@ -106,7 +106,7 @@ public class DictionaryEnglish implements IDictionary {
                                     .readOnly()
                                     .make();
 
-                            words = db.hashSet("wordlist");
+                            words = db.hashSet(getUUID());
                         } catch (IOException e) {
                             Log.e(TAG, "Failed to open copied database", e);
                         }
